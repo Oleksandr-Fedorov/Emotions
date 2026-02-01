@@ -1,0 +1,61 @@
+/* Menu.css */
+.menu-screen {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/images/back3.png"); /* Общий фон меню */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+
+.menu-screen .menu {
+    background-color: #494E56;
+    width: 450px;
+    height: 550px;
+    border-radius: 35px;
+    margin-top: 150px;
+    margin-left: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-screen .menu-background {
+    background-color: #53575F;
+    width: 80%;
+    height: 80%;
+    border-radius: 35px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.menu-screen button {
+    height: 70px;
+    width: 270px;    
+    margin-bottom: 20px;
+    background-color: #445A68;
+    border: none;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    font-family: "Jacques Francois", serif;
+    border-radius: 25px;
+}
+
+.menu-screen .mirror {
+    width: 600px;
+    height: 80%;
+    margin-top: 100px;
+    margin-right: 200px;
+    background-image: url("/images/mirror.png"); /* Изображение зеркала */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
