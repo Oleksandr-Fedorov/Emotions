@@ -19,12 +19,18 @@ html, body, #root {
     position: relative;
     width: 100%;
     height: 100vh;
+    background-image: url("/images/back3.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    
+    /* Цвет оставляем как "подложку" на случай, если картинка не прогрузится */
     background-color: #1a1a1a;
 }
 
 /* --- СЛОИ НАЛОЖЕНИЯ --- */
 /* Эти слои лежат друг на друге ровно по размеру экрана */
 .persistent-layer {
+    
     position: absolute;
     top: 0;
     left: 0;
@@ -126,7 +132,7 @@ html, body, #root {
 .camera-video {
     position: absolute;
     /* Точные координаты "дырки" в рамке */
-    top: 12%;
+    top: 17%;
     left: 8.5%;
     width: 83%;
     height: 78%;
@@ -139,10 +145,10 @@ html, body, #root {
 /* --- ИНТЕРФЕЙСНЫЕ ОВЕРЛЕИ (Интро, Финал) --- */
 .intro-overlay {
     position: absolute;
-    top: 12%;
+    top: 11%;
     left: 8.5%;
     width: 83%;
-    height: 77%;
+    height: 78%;
     border-radius: 6px;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);

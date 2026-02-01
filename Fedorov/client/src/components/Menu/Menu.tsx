@@ -18,16 +18,24 @@ export const Menu: React.FC<MenuProps> = ({ onStart, onTeam, videoRef }) => {
         </div>
       </div>
       
-      {/* Контейнер зеркала */}
-      <div className="mirror">
-          <video 
-            ref={videoRef} 
-            muted 
-            playsInline 
-            autoPlay 
-            /* Добавляем второй класс для сброса стилей */
-            className="camera-video menu-video" 
-          />
+      {/* Вместо div.mirror мы создаем контейнер для рамки.
+          Внутри мы имитируем структуру игры: Видео + Рамка сверху
+      */}
+      <div className="menu-frame-container">
+         <div className="video-wrapper">
+            {/* Слой 1: Рамка (лежит поверх видео благодаря z-index) */}
+            <div className="menu-frame-overlay"></div>
+
+            {/* Слой 2: Видео (используем стандартный класс camera-video из App.css) */}
+            <video 
+              ref={videoRef} 
+              muted 
+              playsInline 
+              autoPlay 
+              /* УБИРАЕМ класс menu-video, чтобы сработали отступы 12%/8.5% из App.css */
+              className="camera-video" 
+            />
+         </div>
       </div>
     </div>
   );
