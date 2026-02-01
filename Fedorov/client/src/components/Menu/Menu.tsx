@@ -4,11 +4,11 @@ import './Menu.css';
 interface MenuProps {
   onStart: () => void;
   onTeam: () => void;
+  videoRef: React.RefObject<HTMLVideoElement>;
 }
 
-export const Menu: React.FC<MenuProps> = ({ onStart, onTeam }) => {
+export const Menu: React.FC<MenuProps> = ({ onStart, onTeam, videoRef }) => {
   return (
-    /* Замени menu-screen-wrapper на menu-screen, если в CSS у тебя menu-screen */
     <div className="menu-screen"> 
       <div className="menu">
         <div className="menu-background">
@@ -17,7 +17,18 @@ export const Menu: React.FC<MenuProps> = ({ onStart, onTeam }) => {
           <button>Setting</button>
         </div>
       </div>
-      <div className="mirror"></div>
+      
+      {/* Контейнер зеркала */}
+      <div className="mirror">
+          <video 
+            ref={videoRef} 
+            muted 
+            playsInline 
+            autoPlay 
+            /* Добавляем второй класс для сброса стилей */
+            className="camera-video menu-video" 
+          />
+      </div>
     </div>
   );
 };

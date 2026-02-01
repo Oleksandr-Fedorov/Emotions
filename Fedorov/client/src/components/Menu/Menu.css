@@ -55,7 +55,27 @@
     height: 80%;
     margin-top: 100px;
     margin-right: 200px;
-    background-image: url("/images/mirror.png"); /* Изображение зеркала */
+    background-image: url("/images/mirror.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    
+    /* Добавляем эти свойства: */
+    position: relative; 
+    overflow: hidden; /* Чтобы видео не вылезало за границы зеркала */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Специфичный стиль для видео в меню */
+.menu-video {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    position: absolute;
+    border-radius: 40px; 
+    
+    z-index: 1; /* <-- Убедитесь, что видео выше фона */
 }

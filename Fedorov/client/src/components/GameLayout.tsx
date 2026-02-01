@@ -1,15 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useCamera } from '../hooks/useCamera';
+
 import { LevelOne } from './levels/LevelOne';
 import { LevelTwo } from './levels/LevelTwo';
 import { LevelThree } from './levels/LevelThree';
 
 interface GameLayoutProps {
-  onGameOver: () => void; // Чтобы вернуться в меню при проигрыше/победе
+  onGameOver: () => void;
+  videoRef: React.RefObject<HTMLVideoElement>; // Получаем проп
 }
 
-export const GameLayout: React.FC<GameLayoutProps> = ({ onGameOver }) => {
-  const { videoRef } = useCamera();
+export const GameLayout: React.FC<GameLayoutProps> = ({ onGameOver, videoRef }) => {
+
   const [currentLevel, setCurrentLevel] = useState<number>(1);
   const [health, setHealth] = useState<number>(10);
 

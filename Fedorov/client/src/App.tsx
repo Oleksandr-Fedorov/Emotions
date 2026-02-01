@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useCamera } from './hooks/useCamera';
 import { Registration } from './components/Registration/Registration';
 import { Menu } from './components/Menu/Menu';
 import { GameLayout } from './components/GameLayout';
@@ -9,7 +10,7 @@ type Screen = 'REGISTRATION' | 'MENU' | 'GAME';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('REGISTRATION');
-
+const { videoRef } = useCamera();
   return (
     <>
       {currentScreen === 'REGISTRATION' && (
@@ -18,13 +19,14 @@ function App() {
 
       {currentScreen === 'MENU' && (
         <Menu 
+        videoRef={videoRef}
           onStart={() => setCurrentScreen('GAME')} 
           onTeam={() => alert('Команда разработки')} 
         />
       )}
 
       {currentScreen === 'GAME' && (
-        <GameLayout onGameOver={() => setCurrentScreen('MENU')} />
+        <GameLayout    videoRef={videoRef} onGameOver={() => setCurrentScreen('MENU')} />
       )}
     </>
   );

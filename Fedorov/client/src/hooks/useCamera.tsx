@@ -1,44 +1,47 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export const useCamera = () => {
-  const videoRef = useRef<HTMLVideoElement|null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
 
+  // 1. Запрашиваем доступ к камере ОДИН раз при запуске приложения
   useEffect(() => {
+    let currentStream: MediaStream | null = null;
+
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            // ЗАПРАШИВАЕМ HD КАЧЕСТВО
-            // Это даст картинку четче и в формате 16:9 (широкую),
-            // что лучше подходит под современные экраны и твою широкую рамку.
-            width: { ideal: 1280 }, 
-            height: { ideal: 720 },
-            facingMode: 'user'
-          } 
+        currentStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { width: 1280, height: 720 } // Можно настроить разрешение
         });
-        
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.onloadedmetadata = () => {
-             setIsReady(true);
-             videoRef.current?.play();
-          };
-        }
-      } catch (err) {
-        console.error("Camera access denied:", err);
+        setStream(currentStream);
+      } catch (error) {
+        console.error("Ошибка доступа к камере:", error);
       }
     };
 
     startCamera();
 
+    // Очистка при закрытии всего приложения
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
       }
     };
   }, []);
 
-  return { videoRef, isReady };
+  // 2. ЭТА ЧАСТЬ ЧИНИТ ПРОБЛЕМУ:
+  // Каждый раз, когда App перерисовывается (смена экранов),
+  // мы проверяем: есть ли видео-тег и подключен ли к нему поток.
+  useEffect(() => {
+    if (videoRef.current && stream) {
+      // Если у видео еще нет потока или он сбился — назначаем заново
+      if (videoRef.current.srcObject !== stream) {
+        videoRef.current.srcObject = stream;
+        // На всякий случай запускаем воспроизведение, если оно встало на паузу
+        videoRef.current.play().catch(e => console.log("Play error:", e));
+      }
+    }
+  }); // Важно: нет массива зависимостей, срабатывает при каждом рендере
+
+  return { videoRef };
 };
