@@ -1,0 +1,239 @@
+/* В САМОМ НАЧАЛЕ ФАЙЛА ДОБАВЬ ЭТО: */
+* {
+  box-sizing: border-box; /* Это починит все отступы */
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+  overflow: hidden;
+}
+
+/* --- ОСНОВНОЙ ЛЕЙАУТ --- */
+.app-root {
+  width: 100%;
+  height: 100vh; /* Ровно высота экрана */
+  background-color: #1a1a1a;
+  color: white;
+  display: flex;
+  padding: 20px;
+  box-sizing: border-box; /* Чтобы паддинг не добавлял лишнюю ширину */
+}
+
+/* Контейнер уровня (Sidebar + Main) */
+.level-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 30px; /* Увеличил отступ между сайдбаром и видео */
+  padding: 20px 0; /* Отступ сверху/снизу внутри контейнера */
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* --- ЛЕВАЯ КОЛОНКА (Sidebar) --- */
+.sidebar {
+  width: 350px; /* Фиксируем ширину сайдбара */
+  flex-shrink: 0; 
+  background: #252525;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центрируем контент по вертикали */
+  box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.sidebar p {
+  color: #aaa;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* --- ПРАВАЯ КОЛОНКА (Main) --- */
+.main-content {
+  flex-grow: 1; /* Занимает всё оставшееся место по ширине */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Важно для растягивания по вертикали */
+  position: relative;
+}
+
+/* --- ВИДЕО ОБЕРТКА (СЦЕНА) --- */
+/* ВАЖНО: Исправляем позиционирование внутри видео */
+.video-wrapper {
+  flex-grow: 1;
+  width: 100%;
+  position: relative; /* Якорь */
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden; /* Обрезает всё, что выходит за границы скругления */
+  border: 2px solid #333;
+  /* Добавляем flex, чтобы растянуть видео */
+  display: flex; 
+  flex-direction: column;
+}
+
+/* Само видео */
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заполнит весь блок, обрезав лишнее, но без полос */
+  transform: scaleX(-1); /* Зеркало */
+  display: block; /* Убираем нижний отступ строчных элементов */
+}
+
+/* --- ИНТРО (СЛОЙ ПОВЕРХ ВИДЕО) --- */
+.intro-overlay {
+  position: absolute; /* Лежит поверх видео */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Сделал темнее для читаемости */
+  backdrop-filter: blur(15px);
+  z-index: 20; /* Выше чем видео */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-content {
+  text-align: center;
+  max-width: 500px;
+  color: white;
+}
+
+.intro-mask-wrapper {
+  width: 180px; 
+  height: 240px;
+  margin: 0 auto 30px auto;
+  /* Анимация "парения" маски */
+  animation: floatMask 3s ease-in-out infinite;
+}
+
+.intro-text {
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Кнопка старт */
+.start-button {
+  z-index: 30;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #646cff 0%, #4a54ff 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(100, 108, 255, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(100, 108, 255, 0.6);
+}
+
+/* --- БЛОК ДИАЛОГА (СНИЗУ, ВСПЛЫВАЮЩИЙ) --- */
+.dialogue-section {
+  position: absolute;
+  bottom: 40px;       
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 700px;
+  
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px 25px;
+  border-radius: 60px;
+  
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  
+  /* ВАЖНО: Поднимаем слой максимально высоко, чтобы видео не перекрывало */
+  z-index: 100; 
+  pointer-events: auto; /* Гарантируем, что клики проходят */
+  
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mini-mask-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.chat-bubble {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-bubble p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.next-level-btn {
+  background: #646cff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  white-space: nowrap; /* Чтобы текст не ехал */
+  box-shadow: 0 4px 15px rgba(100, 108, 255, 0.4);
+  transition: transform 0.2s, background 0.2s;
+  
+  /* Анимация пульсации, чтобы привлечь внимание */
+  animation: pulseBtn 2s infinite;
+}
+
+.next-level-btn:hover {
+  background: #747bff;
+  transform: scale(1.05);
+}
+
+.next-level-btn:active {
+  transform: scale(0.95);
+}
+
+/* Анимации */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translate(-50%, 100px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+@keyframes floatMask { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+
+@keyframes pulseBtn {
+  0% { box-shadow: 0 0 0 0 rgba(100, 108, 255, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(100, 108, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(100, 108, 255, 0); }
+}
+/* Специфика Уровня 2 (Смайлик) */
+.big-emoji {
+  font-size: 8rem;
+  text-align: center;
+  margin-bottom: 20px;
+}

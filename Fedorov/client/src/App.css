@@ -1,0 +1,296 @@
+/* --- БАЗОВЫЕ СБРОСЫ --- */
+* {
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    overflow: hidden;
+    color: white;
+    font-family: "Jacques Francois", serif;
+}
+
+/* --- ГЛОБАЛЬНЫЙ КОНТЕЙНЕР --- */
+.app-root {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #1a1a1a;
+}
+
+/* --- СЛОИ НАЛОЖЕНИЯ --- */
+/* Эти слои лежат друг на друге ровно по размеру экрана */
+.persistent-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Слой с видео снизу */
+.video-only-layer {
+    z-index: 1;
+}
+
+/* Слой с интерфейсом сверху */
+.ui-layer {
+    z-index: 2;
+    pointer-events: none; /* Пропускаем клики сквозь пустые области */
+}
+
+/* Делаем интерактивные элементы UI снова кликабельными */
+.ui-layer .sidebar, 
+.ui-layer .start-button, 
+.ui-layer .dialogue-section,
+.ui-layer .next-level-btn,
+.ui-layer input {
+    pointer-events: auto;
+}
+
+/* --- КОНТЕЙНЕРЫ И СЕТКА (Общие для обоих слоев) --- */
+.level-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 30px;
+    padding: 20px 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Распорка в слое видео, имитирующая сайдбар */
+.sidebar-placeholder {
+    width: 350px;
+    flex-shrink: 0;
+}
+
+/* --- ЛЕВАЯ КОЛОНКА (Sidebar) --- */
+.sidebar {
+    width: 350px;
+    flex-shrink: 0; 
+    background: #252525;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* --- ПРАВАЯ КОЛОНКА (Main) --- */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* --- ВИДЕО ОБЕРТКА (РАМКА) --- */
+.video-wrapper {
+    width: 100%;
+    max-width: 965px; 
+    margin: 0 auto;   
+    aspect-ratio: 476 / 353; 
+    position: relative; 
+    display: flex;
+}
+
+/* В слое интерфейса здесь картинка рамки */
+.ui-layer .video-wrapper {
+    background-image: url('./assets/ramka_obrez.webp');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 5; /* Рамка должна быть НАД видео */
+}
+
+/* В слое видео рамку скрываем, чтобы не двоилось */
+.video-only-layer .video-wrapper {
+    background: transparent !important;
+}
+
+/* --- САМО ВИДЕО --- */
+.camera-video {
+    position: absolute;
+    /* Точные координаты "дырки" в рамке */
+    top: 12%;
+    left: 8.5%;
+    width: 83%;
+    height: 77%;
+    object-fit: cover; 
+    border-radius: 10px;
+    background: black;
+    z-index: 1;
+}
+
+/* --- ИНТЕРФЕЙСНЫЕ ОВЕРЛЕИ (Интро, Финал) --- */
+.intro-overlay {
+    position: absolute;
+    top: 12%;
+    left: 8.5%;
+    width: 83%;
+    height: 77%;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-content {
+    text-align: center;
+    max-width: 500px;
+    color: white;
+}
+
+.intro-mask-wrapper {
+   position: relative;
+    width: 180px; 
+    height: 240px;
+    margin: 0 auto 30px auto;
+    animation: floatMask 3s ease-in-out infinite;
+}
+
+/* --- КНОПКИ --- */
+.start-button {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #646cff 0%, #4a54ff 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(100, 108, 255, 0.4);
+    transition: transform 0.2s;
+}
+
+.start-button:hover {
+    transform: translateY(-2px);
+}
+
+/* --- ДИАЛОГИ И МАСКА ВНИЗУ --- */
+.dialogue-section {
+    position: absolute;
+    bottom: 14%;       
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 700px;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 25px;
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100; 
+}
+
+.mini-mask-wrapper {
+   position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.chat-bubble h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.ui-layer .level-container {
+    padding-top: 60px; /* Увеличиваем отступ сверху, чтобы освободить место под HealthBar */
+    background: transparent !important;
+}
+
+/* --- АНИМАЦИИ --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes floatMask { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* Специфика Уровня 2 (Смайлик) */
+.big-emoji {
+    font-size: 8rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+/* HEALTH WARNING */
+
+.health-bar-container {
+  position: absolute;
+  top: 15px; 
+  left: 20px;
+  width: 350px; 
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.health-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ff4d4d;
+  margin-left: 2px;
+}
+
+.health-track {
+  width: 100%;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #444;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  /* Цвет меняется от красного к фиолетовому по мере роста здоровья */
+  background: linear-gradient(90deg, #ff4d4d, #646cff);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+/* Сетка из 10 делений поверх шкалы */
+.health-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.grid-segment {
+  flex: 1;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.health-value {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  color: #fff;
+  text-align: right;
+  text-shadow: 1px 1px 2px #000;
+}
