@@ -1,0 +1,108 @@
+/* Registration.css */
+.registration-screen.main {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+
+.registration-screen .registration {
+    height: 100%;
+    width: 38%; /* Ширина левой панели */
+    background-image: url("/images/left_back.jpg"); /* Фон левой части */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.registration-screen .registration-form {
+    height: 100%;
+    overflow-y: auto;
+    margin-left: 60px;
+    margin-right: 20px;
+    margin-top: 30px;
+    padding-right: 10px;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}
+
+.registration-screen .registration-form h1 {
+    align-self: center;
+    font-size: 36px;
+    font-weight: normal;
+}
+
+.registration-screen .registration-inputs input {
+    background-color: #445A685E; /* Полупрозрачный фон инпутов */
+    border: none;
+    height: 50px;   
+    width: 100%;
+    max-width: 600px;
+    font-size: 24px;
+    color: white;
+    padding: 10px;   
+    box-sizing: border-box;
+}
+
+.registration-screen .terms-text {
+    background-color: #445A685E;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.registration-screen .registration-form-checkboxes div {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;    
+}
+
+.registration-screen .registration-form-checkboxes p {
+    height: 50px;    
+    flex-grow: 1;
+    background-color: #445A68;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.registration-screen .navigation {
+    height: 100%;
+    width: 62%; /* Ширина правой панели */
+    background-image: url("/images/right_back.png"); /* Фон правой части */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.registration-screen .navigation div {
+    display: flex;
+    justify-content: space-around; 
+    align-items: flex-end;
+    height: 100%;
+    padding-bottom: 40px;
+}
+.registration-form-checkboxes{
+    display: flex;
+    flex-direction: column;
+}
+
+.enter-form {
+    align-self: flex-end;
+   height: 70px;
+    width: 230px;    
+    margin-bottom: 10px;
+    background-color: #445A68;
+    border-radius: 0;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    font-family: "Jacques Francois", serif;
+}
